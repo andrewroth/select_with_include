@@ -14,7 +14,7 @@
             options[:order] = "#{options[:order]}, #{@reflection.options[:order]}"
           elsif @reflection.options[:order]
             options[:order] = @reflection.options[:order]
-        end
+          end
 
           options[:select]  = construct_select(options[:select], options[:include])
           options[:from]  ||= construct_from

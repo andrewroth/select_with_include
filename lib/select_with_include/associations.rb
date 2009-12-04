@@ -4,6 +4,23 @@ module ActiveRecord
       private
         def construct_finder_sql_with_included_associations(options, join_dependency)
           scope = scope(:find)
+          sql = "SELECT #{column_aliases(join_dependency, options)} FROM #{(scope && scope[:from]) || options[:from] || quoted_table_name} "
+          sql << join_dependency.join_associations.collect{|join| join.association_join }.join
+
+          add_joins!(sql, options[:joins], scope)
+          add_conditions!(sql, options[:conditions], scope)
+          add_limited_ids_condition!(sql, options, join_dependency) if !using_limitable_reflections?(join_dependency.reflections) && ((scope && scope[:limit]) || options[:limit])
+
+          add_group!(sql, options[:group], scope)
+          add_order!(sql, options[:order], scope)
+          add_limit!(sql, options, scope) if using_limitable_reflections?(join_dependency.reflections)
+          add_lock!(sql, options, scope)
+
+          return sanitize_sql(sql)
+        end
+
+        def construct_finder_sql_with_included_associations_old(options, join_dependency)
+          scope = scope(:find)
           sql = "SELECT #{column_aliases(join_dependency, options)} FROM #{(scope && scope[:from]) || options[:from] || table_name} "
           sql << join_dependency.join_associations.collect{|join| join.association_join }.join
 
@@ -43,7 +60,7 @@ module ActiveRecord
             def parse_select(select_options)
               return false if select_options.nil?
               tokens = select_options.gsub(' ', '').split(',')
-              parsed = tokens.inject(Hash.new() {[]}) {|hash, token| tab, col = token.split('.'); hash[tab] = hash[tab] << col; hash}
+              parsed = tokens.inject(Hash.new() {[]}) {|hash, token| words = token.split('.'); col = words.pop; tab = words.join('.'); hash[tab] = hash[tab] << col; hash}
               return false if parsed.keys.flatten.member? '*'
               return parsed
             end
