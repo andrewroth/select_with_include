@@ -1,0 +1,30 @@
+h1. select_with_include
+
+h1. &#x2192; 'select_with_include'
+
+
+h2. What
+
+
+h2. Installing
+
+<pre syntax="ruby">sudo gem install select_with_include</pre>
+
+h2. The basics
+
+
+h2. Demonstration of usage
+
+
+
+h2. Forum
+
+"http://groups.google.com/group/select_with_include":http://groups.google.com/group/select_with_include
+
+h2. License
+
+This code is free to use under the terms of the MIT license. 
+
+h2. Contact
+
+Comments are welcome. Send an email to "Dr Nic Williams":mailto:drnicwilliams@gmail.com.
