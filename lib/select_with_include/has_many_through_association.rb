@@ -2,7 +2,8 @@
     module Associations
       class HasManyThroughAssociation
         def find(*args)
-          options = Base.send(:extract_options_from_args!, args)
+          options = args.extract_options!
+          options.assert_valid_keys(ActiveRecord::Base::VALID_FIND_OPTIONS)
 
           conditions = "#{@finder_sql}"
           if sanitized_conditions = sanitize_sql(options[:conditions])
