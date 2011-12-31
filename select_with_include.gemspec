@@ -6,5 +6,5 @@ Gem::Specification.new do |s|
   s.name = "select_with_include"
   s.version = SelectWithInclude::VERSION::STRING
   s.summary = "select_with_include allows to use the select attribute in conjunction with the include attribute"
-  s.authors = ["Paolo Negri"]
+  s.authors = ["Paolo Negri", "Andrew Roth", "Johannes Thoma"]
 end
